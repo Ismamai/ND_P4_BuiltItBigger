@@ -6,14 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.iblesa.androidjoke.Constants;
 import com.iblesa.androidjoke.MainJokeActivity;
 import com.iblesa.javajokes.Joker;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements JokeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Joker joker = new Joker();
-        Toast.makeText(this, joker.getJoke(), Toast.LENGTH_LONG).show();
+        new EndpointsAsyncTask(this).execute();
 
     }
 
@@ -54,8 +52,17 @@ public class MainActivity extends AppCompatActivity {
     public void tellAndroidJoke(View view) {
         Joker joker = new Joker();
         String joke = joker.getJoke();
+        startAndroidJokeActivity(joke);
+    }
+
+    private void startAndroidJokeActivity(String joke) {
         Intent intent = new Intent(this, MainJokeActivity.class);
         intent.putExtra(Constants.JOKE, joke);
         startActivity(intent);
+    }
+
+    @Override
+    public void onJokeReceived(String joke) {
+       startAndroidJokeActivity(joke);
     }
 }
