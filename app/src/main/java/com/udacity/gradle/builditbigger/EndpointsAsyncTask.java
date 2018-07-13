@@ -18,6 +18,9 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
         this.listener = listener;
     }
 
+    public EndpointsAsyncTask() {
+    }
+
     @Override
     protected String doInBackground(Void... voids) {
         if (myApiService == null) {
